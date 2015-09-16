@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>vdesktop</groupId>
 	<artifactId>vdesktop</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.1.1.RELEASE</spring.version>
@@ -27,11 +27,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 	</properties>
+	
 	<distributionManagement>
 		<repository>
-			<id>boful</id>
-			<url>http://ouknowrepos3.3322.org:8081/nexus/content/repositories/boful</url>
+			<id>ligson</id>
+			<url>http://nexus.codertostar.com/content/repositories/ligson/</url>
 		</repository>
+		
 	</distributionManagement>
 	<build>
 		<plugins>
@@ -68,11 +70,11 @@
 	<repositories>
 		<repository>
 			<id>nexus</id>
-			<url>http://ouknowrepos3.3322.org:8081/nexus/content/groups/public/</url>
+			<url>http://nexus.codertostar.com/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>boful</id>
-			<url>http://ouknowrepos3.3322.org:8081/nexus/content/repositories/boful/</url>
+			<id>ligson</id>
+			<url>http://nexus.codertostar.com/content/repositories/ligson/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -91,5 +93,11 @@
 			<artifactId>jna-platform</artifactId>
 			<version>4.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.bytedeco</groupId>
+			<artifactId>javacv</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 	</dependencies>
 </project>
