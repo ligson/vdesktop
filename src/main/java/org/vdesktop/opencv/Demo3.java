@@ -2,18 +2,15 @@ package org.vdesktop.opencv;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.Buffer;
-
 import org.bytedeco.javacv.*;
 import org.bytedeco.javacpp.*;
 import org.bytedeco.javacpp.indexer.*;
-
 import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_imgproc.*;
 import static org.bytedeco.javacpp.opencv_calib3d.*;
 import static org.bytedeco.javacpp.opencv_objdetect.*;
 
-public class Demo2 {
+public class Demo3 {
 	public static void main(String[] args) throws Exception {
 		String classifierName = null;
 		if (args.length > 0) {
@@ -21,8 +18,6 @@ public class Demo2 {
 		} else {
 
 			File file = new File("./haarcascade_frontalface_alt.xml");
-			System.out.println(file.exists());
-			System.out.println(file.getAbsolutePath());
 			//file.deleteOnExit();
 			classifierName = file.getAbsolutePath();
 		}
@@ -41,27 +36,32 @@ public class Demo2 {
 		}
 
 		// The available FrameGrabber classes include OpenCVFrameGrabber
-		// (opencv_highgui),
+		// (opencv_videoio),
 		// DC1394FrameGrabber, FlyCaptureFrameGrabber, OpenKinectFrameGrabber,
 		// PS3EyeFrameGrabber, VideoInputFrameGrabber, and FFmpegFrameGrabber.
 		FrameGrabber grabber = FrameGrabber.createDefault(0);
 		grabber.start();
 
+		// CanvasFrame, FrameGrabber, and FrameRecorder use Frame objects to
+		// communicate image data.
+		// We need a FrameConverter to interface with other APIs (Android, Java
+		// 2D, or OpenCV).
 		OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();
 
-		// FAQ about IplImage:
+		// FAQ about IplImage and Mat objects from OpenCV:
 		// - For custom raw processing of data, createBuffer() returns an NIO
 		// direct
 		// buffer wrapped around the memory pointed by imageData, and under
 		// Android we can
 		// also use that Buffer with Bitmap.copyPixelsFromBuffer() and
 		// copyPixelsToBuffer().
-		// - To get a BufferedImage from an IplImage, we may call
-		// getBufferedImage().
-		// - The createFrom() factory method can construct an IplImage from a
-		// BufferedImage.
-		// - There are also a few copy*() methods for BufferedImage<->IplImage
-		// data transfers.
+		// - To get a BufferedImage from an IplImage, or vice versa, we can
+		// chain calls to
+		// Java2DFrameConverter and OpenCVFrameConverter, one after the other.
+		// - Java2DFrameConverter also has static copy() methods that we can use
+		// to transfer
+		// data more directly between BufferedImage and IplImage or Mat via
+		// Frame objects.
 		IplImage grabbedImage = converter.convert(grabber.grab());
 		int width = grabbedImage.width();
 		int height = grabbedImage.height();
@@ -77,7 +77,7 @@ public class Demo2 {
 		CvMemStorage storage = CvMemStorage.create();
 
 		// The OpenCVFrameRecorder class simply uses the CvVideoWriter of
-		// opencv_highgui,
+		// opencv_videoio,
 		// but FFmpegFrameRecorder also exists as a more versatile alternative.
 		FrameRecorder recorder = FrameRecorder.createDefault("output.avi",
 				width, height);
@@ -92,7 +92,7 @@ public class Demo2 {
 		CanvasFrame frame = new CanvasFrame("Some Title",
 				CanvasFrame.getDefaultGamma() / grabber.getGamma());
 
-		// Let's create some random 3D rotation
+		// Let's create some random 3D rotation...
 		CvMat randomR = CvMat.create(3, 3), randomAxis = CvMat.create(3, 1);
 		// We can easily and efficiently access the elements of matrices and
 		// images
@@ -117,10 +117,11 @@ public class Demo2 {
 				&& (grabbedImage = converter.convert(grabber.grab())) != null) {
 			cvClearMemStorage(storage);
 
-			// Let's try to detect some faces! but we need a grayscale image
+			// Let's try to detect some faces! but we need a grayscale image...
 			cvCvtColor(grabbedImage, grayImage, CV_BGR2GRAY);
 			CvSeq faces = cvHaarDetectObjects(grayImage, classifier, storage,
-					1.1, 3, CV_HAAR_DO_CANNY_PRUNING);
+					1.1, 3, CV_HAAR_FIND_BIGGEST_OBJECT
+							| CV_HAAR_DO_ROUGH_SEARCH);
 			int total = faces.total();
 			for (int i = 0; i < total; i++) {
 				CvRect r = new CvRect(cvGetSeqElem(faces, i));
@@ -137,7 +138,7 @@ public class Demo2 {
 						CvScalar.GREEN, CV_AA, 0);
 			}
 
-			// Let's find some contours! but first some thresholding
+			// Let's find some contours! but first some thresholding...
 			cvThreshold(grayImage, grayImage, 64, 255, CV_THRESH_BINARY);
 
 			// To check if an output argument is null we may call either
