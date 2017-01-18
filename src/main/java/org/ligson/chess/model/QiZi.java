@@ -21,6 +21,12 @@ public class QiZi {
         this.idx = idx;
     }
 
+    public QiZi(boolean black, int rowIdx, int colIdx) {
+        this.black = black;
+        this.rowIdx = rowIdx;
+        this.colIdx = colIdx;
+    }
+
     public Point getPoint() {
         return point;
     }
@@ -70,6 +76,12 @@ public class QiZi {
         graphics.fillOval(point.x - qiziR, point.y - qiziR, qiziR * 2, qiziR * 2);
     }
 
+    public void paintWin(Graphics graphics) {
+        graphics.setColor(Color.RED);
+        graphics.fillOval(point.x - qiziR - 3, point.y - qiziR - 3, qiziR * 2 + 6, qiziR * 2 + 6);
+        paint(graphics);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,6 +89,7 @@ public class QiZi {
 
         QiZi qiZi = (QiZi) o;
 
+        if (black != qiZi.black) return false;
         if (rowIdx != qiZi.rowIdx) return false;
         return colIdx == qiZi.colIdx;
 
@@ -84,8 +97,20 @@ public class QiZi {
 
     @Override
     public int hashCode() {
-        int result = rowIdx;
+        int result = (black ? 1 : 0);
+        result = 31 * result + rowIdx;
         result = 31 * result + colIdx;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "QiZi{" +
+                "point=" + point +
+                ", black=" + (black ? "黑棋" : "白棋") +
+                ", rowIdx=" + rowIdx +
+                ", colIdx=" + colIdx +
+                ", idx=" + idx +
+                '}';
     }
 }
