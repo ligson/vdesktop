@@ -2,6 +2,7 @@ package org.ligson.chess.service;
 
 import org.ligson.chess.enums.Dir;
 import org.ligson.chess.model.QiZi;
+import org.ligson.chess.util.DirCompator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,5 +88,39 @@ public class ChessService {
             }
         }
         return Collections.emptyList();
+    }
+
+    //四个棋子，一活或者两活
+    public QiZi defendFour(QiZi current, List<QiZi> qiZiList) {
+
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 19; j++) {
+                QiZi qiZi = new QiZi(current.isBlack(), i, j);
+                if (qiZiList.contains(qiZi)) {
+                    List<QiZi> list = new ArrayList<>();
+                    //检查同行
+                    list.addAll(checkAll(current, list, Dir.LEFT));
+                    list.addAll(checkAll(current, list, Dir.RIGHT));
+                    Collections.sort(list, new DirCompator(Dir.LEFT, Dir.RIGHT));
+                    if (list.size() >= 4) {
+                        QiZi leftQi = list.get(0);
+                        QiZi nextLeft = new QiZi(leftQi.isBlack(), leftQi.getRowIdx(), leftQi.getColIdx() - 1);
+                        QiZi rightQi = list.get(list.size() - 1);
+                        QiZi nextRight = new QiZi(rightQi.isBlack(), rightQi.getRowIdx(), rightQi.getColIdx() + 1);
+
+
+
+                    }
+
+                }
+            }
+        }
+        return null;
+    }
+
+    public QiZi defend(QiZi current, List<QiZi> qiZiList) {
+        boolean nextRole = !current.isBlack();
+        return null;
+
     }
 }

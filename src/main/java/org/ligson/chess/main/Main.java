@@ -14,7 +14,7 @@ import java.io.File;
  * Created by ligson on 2017/1/16.
  */
 public class Main extends JFrame implements MouseListener, KeyListener {
-    private static File bgFile = new File(Thread.currentThread().getContextClassLoader().getResource("assets/b2.jpg").getFile());
+    private static File bgFile = new File(Thread.currentThread().getContextClassLoader().getResource("assets/bg2.jpg").getFile());
     private static Image bg = Toolkit.getDefaultToolkit().createImage(bgFile.getAbsolutePath());
     private QiPan qiPan;
 
