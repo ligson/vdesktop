@@ -25,7 +25,7 @@
         <quartz.version>2.1.7</quartz.version>
         <httpclient.version>4.3-beta1</httpclient.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lwjgl.version>3.0.0b</lwjgl.version>
+        <lwjgl.version>3.0.0</lwjgl.version>
     </properties>
 
     <distributionManagement>
@@ -70,15 +70,7 @@
     <repositories>
         <repository>
             <id>aliyun</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>nexus</id>
-            <url>http://nexus.codertostar.com/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>ligson</id>
-            <url>http://nexus.codertostar.com/content/repositories/ligson/</url>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
         </repository>
     </repositories>
     <dependencies>
@@ -118,7 +110,8 @@
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-platform</artifactId>
             <version>${lwjgl.version}</version>
-            <classifier>natives-windows</classifier>
+            <type>pom</type>
+            <!--            <classifier>natives-windows</classifier>-->
         </dependency>
 
 

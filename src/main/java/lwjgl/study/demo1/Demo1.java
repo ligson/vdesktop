@@ -12,7 +12,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 /***
  * 学习demo
- * 
+ *
  * @author ligson
  * @see https://github.com/LWJGL/lwjgl3-demos
  * @see http://www.glfw.org/docs/latest/window.html
@@ -21,7 +21,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class Demo1 {
 	public static void main(String[] args) {
 		// 初始化判断
-		if (glfwInit() != 1) {
+		if (!glfwInit()) {
 			System.out.println("flfwInit error");
 			System.exit(-1);
 		}
@@ -41,7 +41,7 @@ public class Demo1 {
 				// TODO Auto-generated method stub
 				System.out.println("点击了:" + key);
 				if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-					glfwSetWindowShouldClose(window, GL_TRUE);
+					glfwSetWindowShouldClose(window, true);
 				}
 
 			}
@@ -63,7 +63,7 @@ public class Demo1 {
 		// 声明要使用opengl
 		glfwMakeContextCurrent(window);
 
-		while (glfwWindowShouldClose(window) == GLFW_FALSE) {
+		while (!glfwWindowShouldClose(window)) {
 			//轮询事件
 			glfwPollEvents();
 		}

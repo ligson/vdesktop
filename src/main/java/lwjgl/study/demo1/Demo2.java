@@ -13,16 +13,16 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 /***
  * 学习demo
- * 
+ *
  * @author ligson
- * @see https://github.com/LWJGL/lwjgl3-demos
- * @see http://www.glfw.org/docs/latest/window.html
+ * https://github.com/LWJGL/lwjgl3-demos
+ * http://www.glfw.org/docs/latest/window.html
  *
  */
 public class Demo2 {
 	public static void main(String[] args) {
 		// 初始化判断
-		if (glfwInit() != 1) {
+		if (!glfwInit() ) {
 			System.out.println("flfwInit error");
 			System.exit(-1);
 		}
@@ -46,7 +46,7 @@ public class Demo2 {
 				String actionString = action == GLFW_RELEASE ? "松开" : "按下";
 				System.out.println(actionString + "了:" + key);
 				if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-					glfwSetWindowShouldClose(window, GL_TRUE);
+					glfwSetWindowShouldClose(window, true);
 				}
 
 			}
@@ -87,7 +87,7 @@ public class Demo2 {
 		// Set the clear color
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-		while (glfwWindowShouldClose(window) == GLFW_FALSE) {
+		while (glfwWindowShouldClose(window) == false) {
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the
 
